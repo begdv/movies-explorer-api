@@ -3,40 +3,40 @@ const mongoose = require('mongoose');
 const { expressionLink } = require('../utils/const');
 
 const movieSchema = new mongoose.Schema({
-  nameRU: {
+  country: {
     type: String,
     required: true,
-    default: 'Название фильма на русском языке',
-  },
-  nameEN: {
-    type: String,
-    required: true,
-    default: 'Movie title in English',
+    default: 'Страна создания фильма',
   },
   director: {
     type: String,
     required: true,
     default: 'Режиссёр фильма',
   },
-  country: {
-    type: String,
+  duration: {
+    type: Number,
     required: true,
-    default: 'Страна создания фильма',
+    default: 0,
   },
   year: {
     type: String,
     required: true,
     default: 'Год выпуска фильма',
   },
-  duration: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
   description: {
     type: String,
     required: true,
     default: 'Описание фильма',
+  },
+  image: {
+    type: String,
+    validate: {
+      validator(val) {
+        const urlRegex = expressionLink;
+        return urlRegex.test(val);
+      },
+      message: (props) => `${props.value} - некорректная ссылка!`,
+    },
   },
   trailerLink: {
     type: String,
@@ -68,6 +68,16 @@ const movieSchema = new mongoose.Schema({
   movieId: {
     type: Number,
     required: true,
+  },
+  nameRU: {
+    type: String,
+    required: true,
+    default: 'Название фильма на русском языке',
+  },
+  nameEN: {
+    type: String,
+    required: true,
+    default: 'Movie title in English',
   },
 });
 
