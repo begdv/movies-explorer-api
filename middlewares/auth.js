@@ -24,7 +24,6 @@ module.exports = (req, res, next) => {
   } catch (err) {
     next(new UnauthorizedError('Пользователь не авторизован на сервере'));
   }
-
   req.user = payload;
   return next();
 };

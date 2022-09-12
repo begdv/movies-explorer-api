@@ -9,7 +9,7 @@ const {
 
 router.get('/', getMovies);
 
-router.patch('/', celebrate({
+router.post('/', celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),

@@ -7,7 +7,7 @@ const BadRequestError = require('../errors/BadRequestError');
 const ConflictError = require('../errors/ConflictError');
 
 module.exports.getUser = (req, res, next) => {
-  User.findById(req.params.userId)
+  User.findById(req.user._id)
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь c запрошенным id не найден');
@@ -23,7 +23,7 @@ module.exports.getUser = (req, res, next) => {
 };
 
 module.exports.updateUser = (req, res, next) => {
-  User.findByIdAndUpdate(req.params.userId, req.body, { runValidators: true, new: true })
+  User.findByIdAndUpdate(req.user._id, req.body, { runValidators: true, new: true })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь c запрошенным id не найден');

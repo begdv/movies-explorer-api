@@ -15,7 +15,7 @@ const auth = require('./middlewares/auth');
 const errorHandling = require('./middlewares/error');
 const NotFoundError = require('./errors/NotFoundError');
 
-const { NODE_ENV, DB_LINK, PORT = 3001 } = process.env;
+const { NODE_ENV, DB_LINK, PORT = 3000 } = process.env;
 
 const app = express();
 
@@ -28,6 +28,8 @@ app.use(helmet());
 app.use(bodyParser.json());
 
 app.use(requestLogger);
+
+app.use(require('./routes/auth'));
 
 app.use(auth);
 
