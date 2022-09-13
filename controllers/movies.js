@@ -5,6 +5,8 @@ const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const ForbiddenError = require('../errors/ForbiddenError');
 
+const { errorMessages } = require('../utils/const');
+
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
     .populate('owner')
@@ -19,7 +21,7 @@ module.exports.addMovie = (req, res, next) => {
     .then((movie) => res.send(movie))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        return next(new BadRequestError('Переданы некорректные данные при создании карточки'));
+        return next(new BadRequestError(errorMessages.badRequestFilmData));
       }
       return next(err);
     });
@@ -29,10 +31,10 @@ module.exports.removeMovie = (req, res, next) => {
   Movie.findById(req.params._id)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Фильм c запрошенным id не найдена');
+        throw new NotFoundError(errorMessages.notFoundFilm);
       }
       if (movie.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('Запрещается удалять чужой фильм');
+        throw new ForbiddenError(errorMessages.forbiddenFilm);
       }
       return Movie.findByIdAndRemove(req.params._id)
         .populate('owner')
@@ -41,7 +43,7 @@ module.exports.removeMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        return next(new BadRequestError('Запрошенный id фильма является некорректным'));
+        return next(new BadRequestError(errorMessages.badRequestFilmId));
       }
       return next(err);
     });

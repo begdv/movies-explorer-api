@@ -8,12 +8,16 @@ require('dotenv').config();
 
 const { errors } = require('celebrate');
 
+const { rateLimiter } = require('./middlewares/ratelimiter');
+
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const auth = require('./middlewares/auth');
 
 const errorHandling = require('./middlewares/error');
 const NotFoundError = require('./errors/NotFoundError');
+
+const { errorMessages } = require('./utils/const');
 
 const { NODE_ENV, DB_LINK, PORT = 3000 } = process.env;
 
@@ -24,6 +28,8 @@ mongoose.connect(NODE_ENV === 'production' ? DB_LINK : 'mongodb://localhost:2701
 });
 
 app.use(helmet());
+
+app.use(rateLimiter);
 
 app.use(bodyParser.json());
 
@@ -36,7 +42,7 @@ app.use(auth);
 app.use(require('./routes/index'));
 
 app.use((req, res, next) => {
-  next(new NotFoundError('Путь не найден'));
+  next(new NotFoundError(errorMessages.notFound));
 });
 
 app.use(errorLogger);

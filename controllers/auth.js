@@ -8,6 +8,8 @@ const BadRequestError = require('../errors/BadRequestError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const ConflictError = require('../errors/ConflictError');
 
+const { errorMessages, CONFLICT_EMAIL_ERROR } = require('../utils/const');
+
 const User = require('../models/user');
 
 module.exports.createUser = (req, res, next) => {
@@ -25,11 +27,11 @@ module.exports.createUser = (req, res, next) => {
       },
     }))
     .catch((err) => {
-      if (err.code === 11000) {
-        return next(new ConflictError('При регистрации указан email, который уже существует на сервере'));
+      if (err.code === CONFLICT_EMAIL_ERROR) {
+        return next(new ConflictError(errorMessages.conflict));
       }
       if (err instanceof mongoose.Error.ValidationError) {
-        return next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+        return next(new BadRequestError(errorMessages.badRequestSignup));
       }
       return next(err);
     });
@@ -41,12 +43,12 @@ module.exports.login = (req, res, next) => {
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new UnauthorizedError('Неправильная почта или пароль');
+        throw new UnauthorizedError(errorMessages.unauthorizedSignin);
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            throw new UnauthorizedError('Неправильная почта или пароль');
+            throw new UnauthorizedError(errorMessages.unauthorizedSignin);
           }
           const token = jwt.sign(
             { _id: user._id },
