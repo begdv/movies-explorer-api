@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
+const cors = require('cors');
+
 require('dotenv').config();
 
 const { errors } = require('celebrate');
@@ -17,6 +19,8 @@ const auth = require('./middlewares/auth');
 const errorHandling = require('./middlewares/error');
 const NotFoundError = require('./errors/NotFoundError');
 
+const corsOptions = require('./middlewares/cors');
+
 const { errorMessages } = require('./utils/const');
 
 const { NODE_ENV, DB_LINK, PORT = 3000 } = process.env;
@@ -28,6 +32,8 @@ mongoose.connect(NODE_ENV === 'production' ? DB_LINK : 'mongodb://localhost:2701
 });
 
 app.use(helmet());
+
+app.use(cors(corsOptions));
 
 app.use(rateLimiter);
 
