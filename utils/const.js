@@ -15,6 +15,9 @@ const errorMessages = {
   badRequestFilmId: 'Запрошенный id фильма является некорректным',
   badRequestFilmData: 'Переданы некорректные данные при создании фильма',
   forbiddenFilm: 'Запрещается удалять чужой фильм',
+  invalidLink: 'некорректная ссылка!',
+  invalidEmail: 'некорректный адрес электронной почты!',
+  internalServer: 'На сервере произошла ошибка',
 };
 
 module.exports = {

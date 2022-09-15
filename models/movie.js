@@ -2,68 +2,63 @@ const mongoose = require('mongoose');
 
 const { expressionLink } = require('../utils/const');
 
+const { errorMessages } = require('../utils/const');
+
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
     required: true,
-    default: 'Страна создания фильма',
   },
   director: {
     type: String,
     required: true,
-    default: 'Режиссёр фильма',
   },
   duration: {
     type: Number,
     required: true,
-    default: 0,
   },
   year: {
     type: String,
     required: true,
-    default: 'Год выпуска фильма',
   },
   description: {
     type: String,
     required: true,
-    default: 'Описание фильма',
   },
   image: {
     type: String,
+    required: true,
     validate: {
       validator(val) {
-        const urlRegex = expressionLink;
-        return urlRegex.test(val);
+        return expressionLink.test(val);
       },
-      message: (props) => `${props.value} - некорректная ссылка!`,
+      message: (props) => `${props.value} - ${errorMessages.invalidLink}`,
     },
   },
   trailerLink: {
     type: String,
+    required: true,
     validate: {
       validator(val) {
-        const urlRegex = expressionLink;
-        return urlRegex.test(val);
+        return expressionLink.test(val);
       },
-      message: (props) => `${props.value} - некорректная ссылка!`,
+      message: (props) => `${props.value} - ${errorMessages.invalidLink}`,
     },
-    required: true,
   },
   thumbnail: {
     type: String,
+    required: true,
     validate: {
       validator(val) {
-        const urlRegex = expressionLink;
-        return urlRegex.test(val);
+        return expressionLink.test(val);
       },
-      message: (props) => `${props.value} - некорректная ссылка!`,
+      message: (props) => `${props.value} - ${errorMessages.invalidLink}`,
     },
-    required: true,
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
     required: true,
+    ref: 'user',
   },
   movieId: {
     type: Number,
@@ -72,12 +67,10 @@ const movieSchema = new mongoose.Schema({
   nameRU: {
     type: String,
     required: true,
-    default: 'Название фильма на русском языке',
   },
   nameEN: {
     type: String,
     required: true,
-    default: 'Movie title in English',
   },
 });
 

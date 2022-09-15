@@ -8,7 +8,7 @@ const ForbiddenError = require('../errors/ForbiddenError');
 const { errorMessages } = require('../utils/const');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({ owner: req.user._id })
     .populate('owner')
     .then((movies) => res.send(movies))
     .catch(next);
