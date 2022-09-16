@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const { expressionLink } = require('../utils/const');
+const { REGULAR_LINK } = require('../utils/const');
 
-const { errorMessages } = require('../utils/const');
+const errorMessages = require('../errors/errorMessages');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -30,7 +30,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(val) {
-        return expressionLink.test(val);
+        return REGULAR_LINK.test(val);
       },
       message: (props) => `${props.value} - ${errorMessages.invalidLink}`,
     },
@@ -40,7 +40,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(val) {
-        return expressionLink.test(val);
+        return REGULAR_LINK.test(val);
       },
       message: (props) => `${props.value} - ${errorMessages.invalidLink}`,
     },
@@ -50,7 +50,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(val) {
-        return expressionLink.test(val);
+        return REGULAR_LINK.test(val);
       },
       message: (props) => `${props.value} - ${errorMessages.invalidLink}`,
     },

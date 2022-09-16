@@ -5,8 +5,9 @@ const jwt = require('jsonwebtoken');
 const BadRequestError = require('../errors/BadRequestError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const ConflictError = require('../errors/ConflictError');
+const errorMessages = require('../errors/errorMessages');
 
-const { errorMessages, CONFLICT_EMAIL_ERROR } = require('../utils/const');
+const { CONFLICT_MONGODB_ERROR } = require('../utils/const');
 
 const User = require('../models/user');
 
@@ -25,7 +26,7 @@ module.exports.createUser = (req, res, next) => {
       },
     }))
     .catch((err) => {
-      if (err.code === CONFLICT_EMAIL_ERROR) {
+      if (err.code === CONFLICT_MONGODB_ERROR) {
         return next(new ConflictError(errorMessages.conflict));
       }
       if (err instanceof mongoose.Error.ValidationError) {

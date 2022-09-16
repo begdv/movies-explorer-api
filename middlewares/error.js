@@ -1,4 +1,4 @@
-const { errorMessages } = require('../utils/const');
+const errorMessages = require('../errors/errorMessages');
 
 module.exports = (err, req, res, next) => {
   const { statusCode = 500, message } = err;

@@ -1,6 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
 
-const { expressionLink } = require('../utils/const');
+const { REGULAR_LINK } = require('../utils/const');
 
 const validatorSigninPost = celebrate({
   body: Joi.object().keys({
@@ -31,9 +31,9 @@ const validatorMoviesPost = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().pattern(expressionLink).required(),
-    trailerLink: Joi.string().pattern(expressionLink).required(),
-    thumbnail: Joi.string().pattern(expressionLink).required(),
+    image: Joi.string().pattern(REGULAR_LINK).required(),
+    trailerLink: Joi.string().pattern(REGULAR_LINK).required(),
+    thumbnail: Joi.string().pattern(REGULAR_LINK).required(),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),

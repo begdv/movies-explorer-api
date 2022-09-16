@@ -2,8 +2,7 @@ const routes = require('express').Router();
 const auth = require('../middlewares/auth');
 
 const NotFoundError = require('../errors/NotFoundError');
-
-const { errorMessages } = require('../utils/const');
+const errorMessages = require('../errors/errorMessages');
 
 routes.use(require('./auth'));
 

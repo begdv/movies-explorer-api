@@ -5,11 +5,10 @@ const Movie = require('../models/movie');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const ForbiddenError = require('../errors/ForbiddenError');
-
-const { errorMessages } = require('../utils/const');
+const errorMessages = require('../errors/errorMessages');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({ owner: mongoose.Types.ObjectId(req.user._id) })
+  Movie.find({ owner: req.user._id })
     .populate('owner')
     .then((movies) => res.send(movies))
     .catch(next);

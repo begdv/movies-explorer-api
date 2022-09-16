@@ -5,8 +5,9 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const ConflictError = require('../errors/ConflictError');
+const errorMessages = require('../errors/errorMessages');
 
-const { errorMessages, CONFLICT_EMAIL_ERROR } = require('../utils/const');
+const { CONFLICT_MONGODB_ERROR } = require('../utils/const');
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
@@ -33,7 +34,7 @@ module.exports.updateUser = (req, res, next) => {
       return res.send(user);
     })
     .catch((err) => {
-      if (err.code === CONFLICT_EMAIL_ERROR) {
+      if (err.code === CONFLICT_MONGODB_ERROR) {
         return next(new ConflictError(errorMessages.conflict));
       }
       if (err instanceof mongoose.Error.CastError) {
