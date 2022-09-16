@@ -18,11 +18,11 @@
 
 **Публичный IP-адрес сервера**
 
-
+84.252.137.43
 
 **Ссылки на страницу**
 
-
+https://api.begunovdv.movies-explorer.nomoredomains.sbs
 
 **Автор**
 

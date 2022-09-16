@@ -1,0 +1,31 @@
+const mongoose = require('mongoose');
+const validator = require('validator');
+
+const errorMessages = require('../errors/errorMessages');
+
+const userSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator(email) {
+        return validator.isEmail(email);
+      },
+      message: (props) => `${props.value} - ${errorMessages.invalidEmail}`,
+    },
+  },
+  password: {
+    type: String,
+    required: true,
+    select: false,
+  },
+  name: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 30,
+  },
+});
+
+module.exports = mongoose.model('user', userSchema);
