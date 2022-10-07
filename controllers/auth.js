@@ -27,7 +27,7 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.code === CONFLICT_MONGODB_ERROR) {
-        return next(new ConflictError(errorMessages.conflict));
+        return next(new ConflictError(errorMessages.conflictEmail));
       }
       if (err instanceof mongoose.Error.ValidationError) {
         return next(new BadRequestError(errorMessages.badRequestSignup));

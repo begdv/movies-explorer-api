@@ -35,7 +35,7 @@ module.exports.updateUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === CONFLICT_MONGODB_ERROR) {
-        return next(new ConflictError(errorMessages.conflict));
+        return next(new ConflictError(errorMessages.conflictEmail));
       }
       if (err instanceof mongoose.Error.CastError) {
         return next(new BadRequestError(errorMessages.badRequestUserId));
