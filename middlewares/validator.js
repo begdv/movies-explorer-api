@@ -1,17 +1,17 @@
 const { celebrate, Joi } = require('celebrate');
 
-const { REGULAR_LINK } = require('../utils/const');
+const { REGULAR_LINK, REGULAR_EMAIL } = require('../utils/const');
 
 const validatorSigninPost = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().email().required(),
+    email: Joi.string().email().pattern(REGULAR_EMAIL).required(),
     password: Joi.string().required(),
   }),
 });
 
 const validatorSignupPost = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().email().required(),
+    email: Joi.string().email().pattern(REGULAR_EMAIL).required(),
     password: Joi.string().required(),
     name: Joi.string().min(2).max(30).required(),
   }),
@@ -19,7 +19,7 @@ const validatorSignupPost = celebrate({
 
 const validatorUsersPatch = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().email().required(),
+    email: Joi.string().email().pattern(REGULAR_EMAIL).required(),
     name: Joi.string().min(2).max(30).required(),
   }),
 });
